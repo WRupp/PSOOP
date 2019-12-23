@@ -1,16 +1,4 @@
-!Essa e uma subrotina pra calcular usando PSO de  uma forma orientada a objeto.
-!Ela foi feita pensando na pratica de orientacao a objeto e testar vantagens e desvantagens...
-!A vantagem é que seria mais facil mais visual algumas operacoes, mas no geral acho que nao vale a pena
-!A implementacao fica mais dificil em alguns pontos e por demais verboso tendo que chamar milhoes de objetos por ai
-!Claro, a informacao segue junta no objeto e fica mais facil de retirar informacoes depois 
-!Mas tem que ficar lembrando qual procedure e de qual classe e tudo mais. Enquanto algumas coisas podiam ser feitas
-!apenas fazendo um vetor e deu pra bola. talvez inclusive fique mais lento, porem nao tenho dados para isso
-!    Wagner 
-!    
-!    
-    
-    
-module PSO_OOP_mod
+module> PSO_OOP_mod
     
     use Optimizer_baseclass
     
@@ -19,8 +7,6 @@ module PSO_OOP_mod
     !private
     
     !public :: PSO_OOP_opt 
-    
-
      
     type Particle
         integer :: ID
@@ -67,13 +53,8 @@ module PSO_OOP_mod
         
     end type 
         
-
-
-    
-    
-    
+    ! -------------------------------------------------------------------------------------    
     contains
-     
     ! -------------------------------------------------------------------------------------    
    
     subroutine PSO_construct(this,Problem_Dim)
@@ -117,19 +98,15 @@ module PSO_OOP_mod
         ContinueCriteria = .true.
        
         do while ( ContinueCriteria )
+                
+            call CPU_time(Start_Time)
             
-             call CPU_time(Start_Time)
-            
-                call this%Update_Swarm_Position
-            
-                call this%Evaluate_swarm
-            
-                call this%Update_Swarm_Velocity
-            
-
+            call this%Update_Swarm_Position
+            call this%Evaluate_swarm
+            call this%Update_Swarm_Velocity
         
             call printOnscreen(this,Iteration,Elapsed_Time)
-            
+      
             call this%CheckCriteria(Iteration,ContinueCriteria)
        
             iteration = iteration + 1
@@ -336,7 +313,7 @@ module PSO_OOP_mod
             ! Return to search space		
             if (this%Swarm%Particles(i)%Position(j) < this%Variable_Limits(j,1) ) then
                 this%Swarm%Particles(i)%Position(j) = this%Variable_Limits(j,1)
-			elseif (this%Swarm%Particles(i)%Position(j) > this%Variable_Limits(j,2) ) then
+            elseif (this%Swarm%Particles(i)%Position(j) > this%Variable_Limits(j,2) ) then
                 this%Swarm%Particles(i)%Position(j) = this%Variable_Limits(j,2)
             end if
         end do
@@ -400,7 +377,5 @@ module PSO_OOP_mod
         print *, '-------------------------------------------------------------' 
     
     end subroutine
-
-
     
 end module
